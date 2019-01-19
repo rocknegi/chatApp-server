@@ -17,9 +17,17 @@ io.on('connection',(socket)=>{
     socket.on('disconnect',()=>{
         console.log('disconnected')
     })
+    socket.emit('newMessage',{
+        from:'xyz@gmail.com',
+        text:'hi',
+        createdAt:''
+    });
+
+    socket.on('createMessage',(message)=>{
+        console.log('from :',message.from);
+    })
+
 });
-
-
 
 server.listen(port,()=>{
 console.log(`server is up on ${port}`);
