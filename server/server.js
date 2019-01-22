@@ -1,34 +1,50 @@
-const path = require('path');
-const express = require('express');
-const socketIO  = require('socket.io');
-const http = require('http');
+const path = require("path");
+const http = require("http");
+const express = require("express");
+const socketIO = require("socket.io");
 
-const publicPath = path.join(__dirname,'../public');
-const app = express();
-var server = http.createServer(app)
+const publicPath = path.join(__dirname, "../public");
+const port = process.env.PORT || 3000;
+var app = express();
+var server = http.createServer(app);
 var io = socketIO(server);
-const port = process.env.PORT || 3000
 
 app.use(express.static(publicPath));
 
-io.on('connection',(socket)=>{
-    console.log('new user connected')
+io.on("connection", socket => {
+  console.log("New user connected");
 
-    socket.on('disconnect',()=>{
-        console.log('disconnected')
+  socket.emit('newMessage', {
+    from: 'Admin',
+    text: 'hello',
+    createdAt: new Date().getTime()
+  });
+
+  socket.broadcast.emit('newMessage', {
+    from: 'Admin',
+    text: 'new user admin joined',
+    createdAt: new Date().getTime()
+  });
+
+  socket.on("createMessage", (message) => {
+    console.log("createMessage", message);
+    // io.emit('newMessage', {
+    //   from: message.from,
+    //   text: message.text,
+    //   createdAt: new Date().getTime()
+    // })
+    socket.broadcast.emit('newMessage', {
+      from: message.from,
+      text: message.text,
+      createdAt: new Date().getTime()
     })
-    socket.emit('newMessage',{
-        from:'xyz@gmail.com',
-        text:'hi',
-        createdAt:''
-    });
+  });
 
-    socket.on('createMessage',(message)=>{
-        console.log('from :',message.from);
-    })
-
+  socket.on("disconnect", () => {
+    console.log("User was disconnected");
+  });
 });
 
-server.listen(port,()=>{
-console.log(`server is up on ${port}`);
-})
+server.listen(port, () => {
+  console.log(`Server is up on ${port}`);
+});

@@ -1,19 +1,14 @@
 var socket = io();
 
-socket.on('connect',()=>{
-    console.log('connected to server');
+socket.on('connect', function () {
+  console.log('Connected to server');
 
 });
 
-socket.on('disconnect',()=>{
-    console.log('disconnected to server');
+socket.on('disconnect', function () {
+  console.log('Disconnected from server');
 });
 
-socket.emit('createMessage',{
-    from:'abc@gmail.com',
-    text:'yo'
+socket.on('newMessage', function (message) {
+  console.log('newMessage', message);
 });
-
-socket.on('newMessage',(message)=>{
-    console.log('from :',message.from);
-})
