@@ -20,10 +20,19 @@
 
   <button id="send-location">Send Location</button>
 
+  <script id="message-template" type="text/template">
+    {{from}} {{createdAt}} {{text}} <br>
+  </script>
+  <script id="location-message-template" type="text/template">
+    {{from}} {{createdAt}}   <br>
+    <a href={{url}} target="_blank">My current location</a>  </script>
+
+
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/libs/jquery-min.js"></script>
   <script src="/js/libs/moment.js"></script>
   <script src="/js/index.js"></script>
+  <script src="/js/libs/mustache.js"></script>
 </body>
 
 </html>
