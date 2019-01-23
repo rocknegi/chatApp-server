@@ -14,9 +14,11 @@
   </ol>
 
   <form id="message-form">
-    <input name="message" type="text" placeholder="Enter your message">
+    <input name="message" type="text" placeholder="Enter your message" autofocus autocomplete="off">
     <button>Send</button>
   </form>
+
+  <button id="send-location">Send Location</button>
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/libs/jquery-min.js"></script>
