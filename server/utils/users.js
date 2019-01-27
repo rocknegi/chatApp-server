@@ -35,6 +35,13 @@ class Users {
 
         return namesArray;
     }
+
+    isUnique(a, n) {
+        var temp = this.getUserList(a)
+        if (temp.find((user) => user == n))
+            return 0
+        else return 1
+    }
 }
 
 module.exports = {

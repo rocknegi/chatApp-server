@@ -8,7 +8,7 @@ const {
   generateLocationMessage,
 } = require('./utils/message');
 const {
-  isRealString
+  isRealString,
 } = require('./utils/validation');
 const {
   Users
@@ -27,13 +27,22 @@ io.on("connection", socket => {
 
 
   socket.on('join', (params, callback) => {
+
     if (!isRealString(params.name || !isRealString(params.room))) {
       callback('name and room both are required')
     }
 
+    if (!users.isUnique(params.room, params.name)) {
+      callback('a user with the same name is already present in this room')
+    }
+    console.log(users.isUnique(params.room, params.name))
+
+
     socket.join(params.room);
     users.removeUser(socket.id);
     users.addUser(socket.id, params.name, params.room);
+    // var a = users.getUserList(params.room)
+
 
     io.to(params.room).emit('updateUserList', users.getUserList(params.room));
 
